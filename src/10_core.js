@@ -20,8 +20,6 @@ const PIXEL_MODES = {
   build:  {name:'Build 320×240',  w:320, h:240, par:1.2, quantise:true,  pitch:'shear', dim:0.82},
   modern: {name:'Modern 480×270', w:480, h:270, par:1.0, quantise:false, pitch:'shear', dim:0.55},
   crisp:  {name:'Crisp 640×400',  w:640, h:400, par:1.0, quantise:false, pitch:'shear', dim:0.55},
-  ultra:  {name:'Ultra 960×600',   w:960, h:600, par:1.0, quantise:false, pitch:'shear', dim:0.48},
-  cinematic:{name:'Cinematic 1280×720',w:1280,h:720,par:1.0,quantise:false,pitch:'shear',dim:0.42},
 };
 let MODE = PIXEL_MODES.doom;
 let IW = MODE.w, IH = MODE.h;

@@ -1078,9 +1078,7 @@ const RENDERERS = [
   {key:'doom',  label:'Doom 320×200',  mode:'doom',  ascii:0, note:'320×200 at a 1.2 pixel aspect, 256 colours, no vertical look — what a 1993 monitor showed.'},
   {key:'build', label:'Build 320×240', mode:'build', ascii:0, note:'The Duke and Blood trick: the same chunky pixels, but you can look up and down by shearing the horizon.'},
   {key:'modern',label:'Modern 480×270',mode:'modern',ascii:0, note:'Square pixels, full colour. The best balance of legibility and atmosphere.'},
-  {key:'crisp', label:'Crisp 640×400', mode:'crisp', ascii:0, note:'Sharp 640×400 rendering with full colour and readable character sprites.'},
-  {key:'ultra', label:'Ultra 960×600', mode:'ultra', ascii:0, note:'High-density rendering with finer geometry, lighting and sprite detail.'},
-  {key:'cinematic', label:'Cinematic 1280×720', mode:'cinematic', ascii:0, note:'Maximum detail at 1280×720, with full-colour rendering and cinematic presentation; performance depends on your device.'},
+  {key:'crisp', label:'Crisp 640×400', mode:'crisp', ascii:0, note:'Highest resolution. Characters and costumes at their most readable.'},
   {key:'ascii', label:'ASCII',         mode:'crisp', ascii:1, note:'The whole frame resolved into characters — a post-process over the same renderer.'},
 ];
 function setRenderer(key){
@@ -1095,7 +1093,6 @@ function setPixelMode(key){
   zbuf=new Float32Array(IW); coneLut=new Float32Array(IW); colAng=new Float32Array(IW); colU=new Int32Array(IW);
   dsArr=new Int32Array(IW); deArr=new Int32Array(IW); computeColAng();
   if(m.pitch!=='shear') S.pitch=0;
-  world.style.imageRendering=m.quantise?'pixelated':'auto';
   const aspect=IW*m.par/IH;
   document.getElementById('vp').style.aspectRatio=`${IW*m.par} / ${IH}`;
   document.getElementById('cab').style.width=`min(97vw, calc((100vh - 60px) * ${aspect.toFixed(3)}), 1320px)`;

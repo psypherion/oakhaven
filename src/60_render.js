@@ -620,6 +620,6 @@ function updateBoot(dt){
     cx.putImageData(id,0,0);
   });
 }
-applyPreset('dusk'); setRenderer('cinematic'); syncPickers(); resize();
+applyPreset('dusk'); setRenderer('doom'); syncPickers(); resize();
 bootResume();
 requestAnimationFrame(frame);
