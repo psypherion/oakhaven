@@ -2,7 +2,7 @@
    the stranger at the altar, Vishvarupa, an ending, and the fourth wall. Screenshots for review. */
 const path=require('path'), fs=require('fs');
 const {chromium}=(()=>{try{return require('playwright')}catch(e){return require('/opt/npm-tools/node_modules/playwright')}})();
-const file=path.resolve(path.join(__dirname,'..','main.html'));
+const file=path.resolve(path.join(__dirname,'..','index.html'));
 const OUT=process.argv[2]||path.join(require('os').tmpdir(),'oak_hearts'); fs.mkdirSync(OUT,{recursive:true});
 (async()=>{
   const b=await chromium.launch({args:['--use-gl=swiftshader']}); const ctx=await b.newContext({viewport:{width:1280,height:760}}); const p=await ctx.newPage();
