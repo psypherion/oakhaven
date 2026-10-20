@@ -1,7 +1,7 @@
 /* Real-browser look at 1.5's set pieces: the vigil, its choice, the gathering, a car scene, an overheard pair. */
 const path=require('path'), fs=require('fs');
 const {chromium}=(()=>{try{return require('playwright')}catch(e){return require('/opt/npm-tools/node_modules/playwright')}})();
-const file=path.resolve(path.join(__dirname,'..','oakhaven.html'));
+const file=path.resolve(path.join(__dirname,'..','main.html'));
 const OUT=process.argv[2]||path.join(require('os').tmpdir(),'oak_story'); fs.mkdirSync(OUT,{recursive:true});
 (async()=>{
   const b=await chromium.launch({args:['--use-gl=swiftshader']}); const p=await b.newPage({viewport:{width:1280,height:760}});

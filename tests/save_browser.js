@@ -2,7 +2,7 @@
    then Continue from the title screen. */
 const path=require('path');
 const {chromium}=(()=>{try{return require('playwright')}catch(e){return require('/opt/npm-tools/node_modules/playwright')}})();
-const file=path.resolve(process.argv[2]||path.join(__dirname,'..','oakhaven.html'));
+const file=path.resolve(process.argv[2]||path.join(__dirname,'..','main.html'));
 (async()=>{
   const b=await chromium.launch({args:['--use-gl=swiftshader']}); const p=await b.newPage({viewport:{width:1152,height:700}});
   const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('console',m=>{ if(m.type()==='error') errs.push(m.text()); });

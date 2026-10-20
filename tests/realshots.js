@@ -16,7 +16,7 @@ g.window=g; g.devicePixelRatio=1;
 g.document={addEventListener(){},getElementById:id=>ELS[id]||(ELS[id]=el(id)),createElement:(tag)=>tag==='canvas'?createCanvas(300,150):el('new'),querySelector:()=>el('q'),querySelectorAll:()=>[],body:{},pointerLockElement:null,exitPointerLock(){}};
 g.getComputedStyle=()=>({fontFamily:'DejaVu Sans Mono, monospace'}); g.addEventListener=()=>{}; g.performance={now:()=>0}; g.requestAnimationFrame=()=>{};
 vm.createContext(g);
-const js=fs.readFileSync(__dirname+'/../oakhaven.html','utf8').match(/<script>([\s\S]*)<\/script>/)[1];
+const js=fs.readFileSync(__dirname+'/../main.html','utf8').match(/<script>([\s\S]*)<\/script>/)[1];
 vm.runInContext(js+`;Object.assign(globalThis,{S,SECTORS,begin,frame,skipCutscene,enterSector,setRenderer,applyPreset,showCard,addNote,startLockdown,
   playCutscene,openDlg,dlg,closeDlg,pickChoice,kevinEnt,deliaEnt,MODE_:()=>MODE});`,g);
 const out=process.argv[2]||'/tmp/claude-0/shots'; fs.mkdirSync(out,{recursive:true});

@@ -236,4 +236,4 @@ if FRONTEND.exists():
 
     @app.get("/")
     def index() -> FileResponse:
-        return FileResponse(FRONTEND / "index.html")
+        return FileResponse(FRONTEND / "main.html")

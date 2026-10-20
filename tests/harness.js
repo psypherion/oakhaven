@@ -28,7 +28,7 @@ function load(){
   g.getComputedStyle=()=>({fontFamily:'monospace'});
   g.addEventListener=()=>{}; g.performance={now:()=>0}; g.requestAnimationFrame=()=>{};
   vm.createContext(g);
-  const src=fs.readFileSync(__dirname+'/../oakhaven.html','utf8');
+  const src=fs.readFileSync(__dirname+'/../main.html','utf8');
   const js=src.match(/<script>([\s\S]*)<\/script>/)[1];
   vm.runInContext(js+`\n;Object.assign(globalThis,{S,SECTORS,LOOKS,COSTUMES,CHAR,charSet,CARS,SPR,PICK_ART,PICKUPS,
     WEAPONS,RITES,SHOP,OBJECTIVES,HEROES,DIALOGUE,CUTSCENES,PIXEL_MODES,RENDERERS,PALETTE,quant,hits,los,lightAt,
