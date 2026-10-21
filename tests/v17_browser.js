@@ -1,7 +1,7 @@
 /* Real-browser look at 1.7: weapons in each style, a tear, the three dimensions and their bosses, a guise. */
 const path=require('path'), fs=require('fs');
 const {chromium}=(()=>{try{return require('playwright')}catch(e){return require('/opt/npm-tools/node_modules/playwright')}})();
-const file=path.resolve(path.join(__dirname,'..','index.html'));
+const file=path.resolve(path.join(__dirname,'..','oakhaven.html'));
 const OUT=process.argv[2]||path.join(require('os').tmpdir(),'oak_v17'); fs.mkdirSync(OUT,{recursive:true});
 (async()=>{
   const b=await chromium.launch({args:['--use-gl=swiftshader']}); const ctx=await b.newContext({viewport:{width:1280,height:760}}); const p=await ctx.newPage();

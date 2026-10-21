@@ -8,7 +8,7 @@ const {chromium}=(()=>{try{return require('playwright')}catch(e){return require(
     window.__pad=pad; navigator.getGamepads=()=>[pad]; });
   const p=await ctx.newPage(); const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('console',m=>{ if(m.type()==='error') errs.push(m.text()); });
   const R=[]; const log=(k,v)=>R.push([k,v]);
-  await p.goto('file://'+require('path').resolve(process.argv[2]||require('path').join(__dirname,'..','index.html'))); await p.waitForTimeout(500);
+  await p.goto('file://'+require('path').resolve(process.argv[2]||require('path').join(__dirname,'..','oakhaven.html'))); await p.waitForTimeout(500);
   await p.evaluate(()=>{ localStorage.clear(); localStorage.setItem('oakhaven.settings.v1',JSON.stringify({warned:true,hints:false})); document.getElementById('gate')?.classList.remove('on'); dispatchEvent(Object.assign(new Event('gamepadconnected'),{gamepad:window.__pad})); });
   // open from boot button
   await p.click('#openCtrl'); await p.waitForTimeout(300); await p.screenshot({path:require('path').join(require('os').tmpdir(),'ctrl_page.png'),fullPage:false});

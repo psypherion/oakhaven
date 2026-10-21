@@ -6,9 +6,9 @@ post-process. You get a drivable Impala, buildings you can walk into, a
 paper-doll cast, in-engine cutscenes, and a story that unfolds through
 conversations you overhear and conversations you choose.
 
-**Version 1.7.0.** This is a free, non-commercial fan work. See `CREDITS.md` for the licence and the *Supernatural* notice, `CHANGELOG.md` for what changed, and `KNOWN_ISSUES.md` for limitations.
+**Version 1.9.0.** This is a free, non-commercial fan work. See `CREDITS.md` for the licence and the *Supernatural* notice, `CHANGELOG.md` for what changed, and `KNOWN_ISSUES.md` for limitations.
 
-**Supported:** desktop Chrome, Edge, Firefox or Safari 17+, with keyboard and mouse or a standard gamepad. Touch screens aren't supported. The game is one HTML file that runs offline, with no server needed.
+**Supported:** desktop Chrome, Edge, Firefox or Safari 17+, with keyboard and mouse or a standard gamepad; and phones and tablets in landscape, with touch controls (1.9). The game is one HTML file that runs offline, with no server needed. Two-player campaigns need a network connection; see *Two players* below.
 
 ## Files
 
@@ -16,6 +16,8 @@ conversations you overhear and conversations you choose.
 - `src/` holds the source the game is built from. `python3 build.py` concatenates it into `oakhaven.html`.
 - `tests/` has headless tests (`node tests/suite.js`) that play both acts end to end, including every story branch.
 - `backend/` is the optional FastAPI server for saves and server-side act gating.
+- `server/` is the optional co-op campaign server (Starlette + SQLite). See `server/README.md`.
+- `vendor/` holds PeerJS, which the build embeds (`python3 tools/vendor_peerjs.py`).
 - `STORY.md` is the story bible. `RENDERING.md` covers how the renderer works.
 - `docs/AUDIT.md` is the release audit: defects found, severity and fixes. `docs/CASEMAP.md` is the case dependency map.
 - `tests/release.js` checks saves, settings, combat telegraphs, blocking and the investigation systems. `tests/cases.js` plays every case end to end.
@@ -79,6 +81,52 @@ Dean, Sam, Kevin, Crowley, the sheriff, Sarah Lindqvist, Dr. Halvorsen, Hank
 nightgown shows up on Main Street in Act II. Castiel and Chuck are drawn and
 ready for later acts. `node tests/castsheet.js out.png` renders the whole cast
 on one sheet.
+
+## Phones, HD and Cinematic (1.9)
+
+- **On a phone:** open the page, turn the phone sideways, and tap Play. The game goes fullscreen where it can, and starts on *Fill screen*, a renderer as wide as your screen.
+  - Left thumb: move. Push to the rim to run.
+  - Right thumb: look, plus fire, use, jump, duck, special, next weapon and alt.
+  - Top bar: pause, map, case file, phone, the quick wheel (press and slide), torch, med kit, kick, and fullscreen.
+  - Tap dialogue choices directly. **✕** backs out of the map and phone.
+  - Settings → Touch has look speed, button size, and on/off.
+  - On iPhone, Safari doesn't allow web pages to go fullscreen. *Add to Home Screen* gives the most screen.
+- **HD 960×540** and **Cinematic** (2.39:1 at 1280×536, with bloom, grain and a vignette) are on the title screen's renderer row, and on R in play.
+  - Cinematic needs a quick computer. If yours can't keep up, it steps down to 960×402 by itself.
+
+## Two players (1.8)
+
+Press **Play together…** on the title screen.
+
+1. **One of you creates a campaign.** Name it, choose your brother and your role (the Observer or the Interrogator), and press Create.
+2. **Send the other person two things, separately:** the invitation link, and the code under it. The code is shown once, works once, and lasts seven days.
+3. **The other person opens the link,** types the code and takes the seat. They get the other brother and the other role, and that's permanent for this campaign.
+4. **Play.** Each of you walks your own copy of the town. Talk over whatever voice or text chat you already use. The game is built so that each of you finds different things.
+
+**In play:**
+- **I**: the campaign board. It shows what's waiting on you (joint decisions, sealed theories, debates), your private notebook, the contradiction ledger, the chronicle, and how things stand between people.
+- **J**: the case file. Badges show what came from your partner and what's still only in your notebook.
+- **Quick wheel → Signal brother**: short signals ("Come here", "I found something"), for when you're not on voice.
+- **Pause menu → Campaign…**:
+  - invite
+  - remove your partner (host only)
+  - close the campaign (host only)
+  - your recovery code
+  - download the campaign file
+  - signalling settings
+
+**Where the campaign lives.**
+- **Browser to browser** (default) works on GitHub Pages as it is:
+  - The host's browser keeps the authoritative campaign.
+  - Your partner can keep playing while the host is away. Anything that needs you both waits for the host to come back.
+  - The host should download the campaign file now and then: it's the only backup.
+- **Campaign server.** For a campaign that's always available, run `server/coop_server.py` somewhere with TLS and choose *Campaign server* when you create the campaign.
+
+**Coming back.**
+- Both browsers remember the campaign: press Play together… → Resume.
+- On a new browser, use **Recover access** with your recovery code. If you hosted a browser-to-browser campaign, recover with your campaign file instead.
+
+The chapter written for two is *The Rot* (Act I). After it, the rest of the game carries on in your own towns, and the case file, the chronicle and the relationships stay shared. See `STORY.md` §13.
 
 ## The arsenal, the guises, and other places (1.7)
 

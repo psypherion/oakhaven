@@ -714,3 +714,71 @@ These cases are built on the shared systems. Each one answers a small question a
 - `dimFinish` sends a message from the present when a place is done, and each place adds an epilogue line.
 
 **The darker material.** The register in 1951 is the only place the murdered are named, and it's written as a document of record. Nothing is shown. Margaret's story is about her being believed, and about her choosing to speak, which is the best outcome on offer.
+
+
+## 13. As built: two players, Chapter One (1.8)
+
+**The design test.** If one player could gather all the evidence, make every decision and understand the whole mystery without the other, the multiplayer isn't doing its job. Everything below is there to make the second investigator change what the pair can find.
+
+**Roles** (`src/61d_coop_game.js`).
+- **The Observer:**
+  - reads the county register properly
+  - sees edited case-file entries
+  - gets the pattern read on the board
+  - sees which theories the shared deductions support
+- **The Interrogator:**
+  - gets +1 trust with every witness
+  - is the only one Halvorsen will talk to
+  - gets the gut read that rules a theory out
+  - gets the "read him" options in dialogue
+- Roles are chosen at creation, never by the host's say-so later, and are locked per seat.
+
+**Information** (`coopScan`, `noteMine`, `shareNote`).
+- Clues of kind doc, place, photo, note or record auto-share when found.
+- Talk and sound clues, visions, and the 2:40 message go to `priv.<seat>.notes`.
+- Sharing a note puts its clue in `shared.clues`. A deduction that uses a private note shares the note.
+
+**Joint choices** (`JOINT`, `jointVote`, `jointTick`).
+- Round one is sealed.
+- If the answers match, the choice is committed. If they differ, round two is the debate: stand by your answer or take your partner's.
+- If you still differ, the choice is contested.
+- Theories are joint choices with id `th-<case>`, so every case with a theory works this way in co-op.
+- Results are written once with compare-and-set (`shared.final.<id>`, `expect:null`), and each client applies them exactly once.
+
+**The Rot** (`src/61f_rot.js`).
+- *Why are people dying, and why do the records disagree?*
+- **Divide.** The register is in the library (the Observer's discovery: page 0114 is cut, and the stub reads "— 14 Mar — 9 yrs —"). Halvorsen is at the Velvet Hour bar (the Interrogator's: a girl sent home in March, and a man from Delaware who made him cut her page). Lilith waits in the motel lobby.
+- **Compare.** `first` (stub + confession) is the deduction neither can make alone. `named` needs Sarah's index card. `motive`, `dust` and `clock` support the three theories:
+  - **ghost**: the clock deduction. Plausible.
+  - **neglect**: the dust deduction. Plausible, and incomplete.
+  - **cover-up**: the first death, the motive and the dust. True.
+- **Test: the Fracture.** It starts when the register is on the shared file and both players are online.
+  - Stage 1: the Observer sees Sarah at the desk and blood on it. The Interrogator sees an empty room and a clean desk.
+  - Desk claims that contradict move it to stage 2: the views swap. The clock, the register's page count and the archive door are claims you can both verify.
+  - With two verified claims, the joint question *What in the library is real?* resolves it.
+  - The 2:40 message appears once to whoever is in the library while their partner isn't. It's written by the game, recorded in the recipient's notebook, and revealed to both in the chronicle when the room is settled.
+- **Consequences.**
+  - *What do you tell Sarah?* (joint). Telling her together works only if both brothers have earned it: the sum over both of her trust plus safety must be at least 4. Then she gives you her index card. Otherwise the archive doesn't survive the night.
+  - *What you do with what you know* (joint) closes the chapter:
+    - **Seven**: the cover-up theory, and the doctor exposed or protected.
+    - **Six**: an incomplete theory; or burying it; or publishing a confession Lilith drew out, which he recants.
+    - **Two files**: a contested theory or a contested decision.
+
+**Relationships** (`src/61e_rel.js`).
+- `rel[a][b][var]` holds deltas over `REL_BASE`, clamped to ±10.
+- Writes go through `relEvent`. In co-op only the player whose brother is in the pair can write it, and a brother's own feelings only by his own player.
+- The brothers have no desire line, enforced by both the authority and the server.
+- `relReact` picks a line from where things stand. Sarah's opening line after the Fracture has six variants, depending on her resentment, your influence, her safety and trust, and your understanding.
+- The board's People tab shows your own side in words. Theirs shows only once you understand them.
+
+**Lilith.**
+- New, in the motel lobby, in co-op.
+- Accepting her help raises your influence and costs her respect for you. Refusing and saying why earns it.
+- Her gift opens Halvorsen to either role. The confession is flagged in the ledger as not freely given, and it doesn't survive publication.
+- She never touches the brothers' bond.
+
+**The protocol** (`src/61a_coop_core.js`, `server/coop_server.py`).
+- Operations are `set`, `inc`, `push`, plus host-only `invite`, `revoke`, `close` and `reopen`.
+- Each is checked, stamped with a version, persisted, acknowledged and broadcast. Private ones go only to their owner.
+- Clients keep a replica and an outbox. Duplicates are recognised by operation id.
+- A 5-second heartbeat finds dead links.

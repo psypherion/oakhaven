@@ -232,7 +232,7 @@ function showWarning(then){
 }
 function showCredits(){
   elGate.innerHTML=`<div class="gt cr"><small>Oakhaven ${BUILD}</small><h1>Credits</h1>
-    <p><b>Design, writing, code, pixel art and sound:</b> made for this fan project. Everything you see and hear is drawn and synthesised in the browser at runtime: there are no image, audio or font files and no third-party libraries in the game.</p>
+    <p><b>Design, writing, code, pixel art and sound:</b> made for this fan project. Everything you see and hear is drawn and synthesised in the browser at runtime: there are no image, audio or font files. Two-player campaigns use PeerJS (MIT licence, peerjs.com).</p>
     <p><b>Characters</b> Dean and Sam Winchester, Castiel, Crowley, Chuck Shurley, Kevin Tran and Juno are from <i>Supernatural</i> (Kripke Enterprises, Wonderland Sound and Vision, Warner Bros. Television). They are used here non-commercially, as a fan work. Every other character, place and case is original to Oakhaven.</p>
     <p><b>Fonts</b> are your system’s monospace and serif fonts.</p>
     <p><b>Touchstones:</b> <i>Fatal Frame</i>, <i>P.T.</i>, <i>Silent Hill</i>, <i>Visage</i>, <i>Doki Doki Literature Club</i>, <i>Inscryption</i>, <i>Mouthwashing</i>, and <i>Doom</i> for the renderer.</p>

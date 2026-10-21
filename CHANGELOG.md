@@ -1,5 +1,98 @@
 # Changelog
 
+## 1.9.0: Cinematic, HD, and phones
+
+**Higher resolution**
+- **HD 960×540**: more than twice Crisp's pixels, smoothly scaled to your screen.
+- **Cinematic**: the widescreen 2.39:1 frame at 1280×536, with a soft bloom on everything that glows, film grain, a vignette and a light grade.
+  - It's the heaviest mode. If your computer can't keep up for a few seconds, it drops to 960×402 by itself and tells you.
+- On very sharp screens the HUD and text now draw at up to 3× pixel density (was 2×).
+- The game now remembers the renderer you chose.
+
+**Phones and tablets, in landscape**
+- On a touch screen the game turns on touch controls by itself. You can change that under Settings → Touch.
+- The game fills the screen sideways, and goes fullscreen and locks to landscape where the browser allows.
+- **Fill screen** is a new renderer made for phones: 270 lines high and exactly as wide as your screen, so there are no black bars. Phones start on it.
+- **Left thumb:** a floating stick, wherever you put your thumb down. Push it to the rim to run.
+- **Right thumb:** drag anywhere empty to look. The buttons sit in an arc:
+  - fire (hold)
+  - use
+  - jump
+  - duck (hold)
+  - special
+  - next weapon
+  - alt / rite
+- **Top bar:**
+  - pause
+  - map
+  - case file
+  - phone
+  - quick wheel (press and slide to pick)
+  - torch
+  - med kit
+  - kick
+  - campaign board in co-op
+  - fullscreen
+- **✕** backs out of the map, phone, shop, camera and wheel. **Skip ›** appears during cutscenes.
+- Dialogue, menus, the journal and the board all work by tapping. The controls get out of the way while those are open.
+- Holding a phone upright shows a card asking you to turn it sideways.
+- Settings → Touch has look speed and button size.
+
+## 1.8.0: two players
+
+**A campaign for two**
+- **Play together…** on the title screen. One of you creates a campaign and sends the other an invitation: a link, plus a separate one-time code. The link alone doesn't let anyone in.
+- Each of you plays one brother in your own copy of Oakhaven. The case file, the decisions, the people and a running chronicle are shared.
+- **Roles.** When you create the campaign you choose your brother and your role. Your partner gets the other brother and the other role, and both are permanent for that campaign, even after a reconnect.
+  - **The Observer** reads records. He sees altered documents and missing numbers, gets the pattern read on the case board, and can see which theories the evidence actually supports.
+  - **The Interrogator** reads people. Witnesses trust him more, some will talk only to him, and he gets the gut read that rules a theory out.
+- **Hosting is admin, not story.** The host invites, removes and closes. The host gets no extra evidence or narrative power.
+
+**Shared evidence, separate knowledge**
+- Documents, places, photographs and records go into the shared case file as soon as either of you finds them.
+- What people tell you, and what only you saw, goes into your **personal notebook** (board, **I**) until you choose to share it. A deduction made from a private note shares the note.
+- The **contradiction ledger** keeps both your accounts of the same thing side by side. It marks what you can both check for yourselves.
+- **Theories are sealed.** Each of you answers alone, and neither sees the other's answer until both are in. If you agree, the theory is committed. If you disagree, a debate opens with the evidence on the table. If you still disagree after that, the case is recorded as contested.
+- **Joint decisions** are permanent and need both of you. Decisions you make alone are still yours, but your brother hears about them and takes it his own way.
+- **Trust between the brothers** is tracked separately from anything supernatural. Disagreeing is never treated as being compromised.
+
+**Chapter One: The Rot**
+- A new two-player chapter: *Why are people dying, and why do the records disagree?*
+- The Observer finds a page cut from the county death register. The Interrogator gets the doctor who signed it to say why. Neither has the answer alone.
+- **The Fracture.** In the library, the two of you see different rooms. You compare what you can both check while the room changes around you. At some point a message arrives from your brother, and your brother never sent it. That message is scripted by the game. Nothing you say or type outside the game is ever recorded or imitated.
+- There are three plausible theories and three endings: **Seven**, **Six** and **Two files**.
+
+**Four protagonists**
+- **Lilith**, new: the Demon Queen who wants to be human. She waits in the motel lobby. She can make anyone talk, but what she draws out of someone isn't freely given, and it won't survive daylight.
+- **Sarah's beast.** She loses an hour in her own archive. What you tell her, you decide together, and how it goes depends on how each of you has treated her.
+- **Relationships.** Dean, Sam, Lilith and Sarah each feel something separate, and lopsided, about each of the others: trust, affection, respect, desire, understanding, resentment, emotional safety and supernatural influence. Each changes through structured events.
+  - You only ever write your own brother's side.
+  - Major changes appear in the chronicle. Small ones stay private.
+  - There is no desire between the brothers, ever.
+
+**Keeping a campaign**
+- **Asynchronous play.** If your partner drops out, you keep investigating. Whatever you find waits in your outbox, and joint decisions wait for them.
+- **Reconnecting** loads the campaign's authoritative state, not what your browser remembers.
+- **The campaign panel** (pause menu) has:
+  - a new invitation
+  - remove your partner (nothing is erased; the seat stays locked to that brother and role, so a new player takes it over as the story left it)
+  - close and reopen
+  - your recovery code
+  - the campaign file
+  - signalling and TURN settings
+- **Two ways to connect:**
+  - **Browser to browser.** This is the default, and it works on GitHub Pages with no server. The host's browser holds the campaign, and your browsers talk directly over WebRTC. PeerJS's public server only introduces them.
+  - **Campaign server**, optional. Run `server/coop_server.py` (Starlette + SQLite) and the campaign lives there, so either of you can play while the other is away.
+- Single-player is unchanged.
+
+**Under the hood**
+- `src/61a`–`61g`: the protocol, connections, game glue, relationships, the chapter and the screens.
+- PeerJS 1.5.4 (MIT) is embedded as text and only started when a co-op session begins.
+- Tests:
+  - `tests/coop.js`: two to five isolated game instances, with joining, rules, the Fracture, theories, endings, disconnects, removal and recovery
+  - `tests/coop_browser.js`: two real Chromium pages over WebRTC through a local signalling server
+  - `tests/server_test.py` and `tests/coop_server_interop.js`: the Python server, on its own and with the game
+
 ## 1.7.0: the arsenal, the guises, and three other places
 
 **Fixed: stranded at Pike's Reservoir**

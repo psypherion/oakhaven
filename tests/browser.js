@@ -1,5 +1,5 @@
 const {chromium}=(()=>{try{return require('playwright')}catch(e){return require('/opt/npm-tools/node_modules/playwright')}})();
-const file=process.argv[2]||require('path').join(__dirname,'..','index.html');
+const file=process.argv[2]||require('path').join(__dirname,'..','oakhaven.html');
 (async()=>{
   const b=await chromium.launch({args:['--use-gl=swiftshader','--autoplay-policy=no-user-gesture-required']});
   let fails=0; const res=[];

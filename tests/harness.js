@@ -19,16 +19,18 @@ const ELS={};
 /* storage survives between load() calls, like a browser profile */
 const STORE={}, SESS={};
 const mkStore=o=>({getItem:k=>k in o?o[k]:null,setItem:(k,v)=>{o[k]=String(v);},removeItem:k=>{delete o[k];},clear:()=>{for(const k in o) delete o[k];}});
-function load(){
+function load(o={}){
+  const ELS_=o.isolated?{}:ELS, STORE_=o.store||(o.isolated?{}:STORE), SESS_=o.isolated?{}:SESS;
   const g={console,Math,Date,JSON,Set,Map,Array,Object,Number,String,Uint8Array,Uint32Array,Int32Array,Float32Array,
     Uint8ClampedArray,Infinity,NaN,isFinite,parseInt,parseFloat,Error,setTimeout:(f)=>0,clearTimeout:()=>{},Proxy};
-  g.window=g; g.devicePixelRatio=1; g.localStorage=mkStore(STORE); g.sessionStorage=mkStore(SESS); g.location={reload(){ g.__reloaded=true; }};
-  g.document={addEventListener(){},getElementById:id=>ELS[id]||(ELS[id]=el(id)),createElement:()=>el('new'),
+  if(o.globals) Object.assign(g,o.globals);
+  g.window=g; g.devicePixelRatio=1; g.localStorage=mkStore(STORE_); g.sessionStorage=mkStore(SESS_); g.__store=STORE_; g.location={reload(){ g.__reloaded=true; }};
+  g.document={addEventListener(){},getElementById:id=>ELS_[id]||(ELS_[id]=el(id)),createElement:()=>el('new'),
     querySelector:()=>el('q'),querySelectorAll:()=>[],body:{},pointerLockElement:null,exitPointerLock(){}};
   g.getComputedStyle=()=>({fontFamily:'monospace'});
   g.addEventListener=()=>{}; g.performance={now:()=>0}; g.requestAnimationFrame=()=>{};
   vm.createContext(g);
-  const src=fs.readFileSync(__dirname+'/../index.html','utf8');
+  const src=fs.readFileSync(__dirname+'/../oakhaven.html','utf8');
   const js=src.match(/<script>([\s\S]*)<\/script>/)[1];
   vm.runInContext(js+`\n;Object.assign(globalThis,{S,SECTORS,LOOKS,COSTUMES,CHAR,charSet,CARS,SPR,PICK_ART,PICKUPS,
     WEAPONS,RITES,SHOP,OBJECTIVES,HEROES,DIALOGUE,CUTSCENES,PIXEL_MODES,RENDERERS,PALETTE,quant,hits,los,lightAt,
@@ -38,6 +40,12 @@ function load(){
     lookTarget,openDlg,pickChoice,closeDlg,dlg,updateRite,breakRite,learnRite,cycleRite,render,drawHUD,drawFullMap,
     drawViewmodel,gatherDyn,PARTS,mouse,keys,VM_:()=>VM,COMP_:()=>COMP,FB:()=>fb,IW_:()=>IW,IH_:()=>IH,ZB:()=>zbuf,
     MODE_:()=>MODE,updateStory,townTalk,drawCaseFile,drawCard,CONVOS,NOTES,startLockdown,spawnCrowley,kevinEnt,deliaEnt,terminalsRead,SPEAKERS,TOWN_TALK,setPortrait,buildViewmodels,portraitOf,bustOf,hitscan,aimedEnemy,exitCar,enterCar,respawn,SUBQ,say,updateSubs,startAt,chooseEnding,epilogue,readThing,lilyEnt,resolveAlistair,doorRedirect,objIndex,BOOT,beatsText,whisperPool,dreadEffect,townRoll,writeSave,readSave,restore,snapshot,openPause,latestSave,allSaves,bootResume,resumeVia,wipeSaves,canSave,requestAutosave,GALLERY_:()=>GALLERY,PHN,ECHOES,elPhone,openPhone,inputDown,inputUp,CASES,USES,DESTS,startLockdown,wakeShades,carMenu,radio,epilogue,answerCall,ringPhone,saveSettings,saveDamaged,slotLine,openSettings,trustOf,noteView,invQuality,qualityLine,decide,impalaTalk,closeCase,commitTheory,damageEnt,arcOf,arc,together,pendingCar,CAR_:()=>CAR,BEATS,playCar,arcS,gatherers,vigilEnd,vigilCast,pendingReact,overhearPair,BULLETINS,CASE_TXT,TOWN_REACT,OVERHEAR,pendingBeat,inv_,caseDecision,msg,THREADS,INV_UPDATES,later,NAMES,NAME_DEFAULT,nm,applyNames,saveNames,openNames,switchHero,switchBlock,missionLock,hearts,heart,heartOf,trueLove,brotherReach,lures,ENTH,spellRun,startSpell,rescues,thrallCost,freedBy,tg,godRun,vishva,VIS,godEpilogue,proof,FW,fwTown,tzTown,fourthWall,fourthEnd,LFX,GSP,ACTIONS,PRESS,WHEEL_ITEMS,renderChoices,godEnter,showNode,godEnding,elCh_:()=>elCh,elLine_:()=>elLine,elSpk_:()=>elSpk,WEAPON_ORDER,VM_STYLES,setWeaponStyle,cycleWeaponStyle,BLADES,GEAR,gear,giveGear,giveWeapon,fireRing,DIMS,dimDone,enterDim,leaveDim,openTear,DIM_LOOK,BOSS_AI,freeSpot,nearestDry,bellEnd,bellRings,inWater,d1Open,d2Wake,d3Wake,dimFinish,elBoss,PRESS_:()=>PRESS,rebuildVM,SPR});`,g);
+  vm.runInContext(`;Object.assign(globalThis,{COOP,COOP_NET,coopBegin,coopCreateLocal,coopInviteOffline,coopMemPair,CoopClient,CoopAuthority,coopFresh,coopApply,coopACL,coopView,
+    sha256hex,coopCodeHash,coopCredHash,coopRand,coopFmt,coopState,coopShared,myPriv,jointVote,jointState,jointRound,JOINT,shareNote,ledgerRows,frStage,frVerified,rotEnding,
+    openBoard,closeBoard,renderBoard,BOARD,elBoard_:()=>elBoard,elLobby_:()=>elLobby,elAut_:()=>elAut,openLobby,renderLobby,LOBBY,coopList,coopMeta,coopStoreMeta,coopForget,coopLoadAuth,
+    relGet,relEvent,relHistory,relWords,partnerOnline,partnerHere,partnerJoined,coopRecoveryCode,coopImportCode,coopArchive,coopImportArchive,coopParseJoin,coopInviteLink,
+    openCampaignPanel,renderPanel,coopWorld,cop,chron,clueLocal,feedPush,coopScan,coopReconnectNow,coopConnect,sendPing,isObserver,isInterrogator,coopHud,elFeed_:()=>elFeed,
+    sarahAsks,ROT_END,showRotEnding,theoryOf,tryLink,clueHave,haveLink,jointDef,openJournal,renderJournal,JR,elJournal_:()=>elJournal,coopPeerId,coopPeerOpts,coopDialWS,coopCreateServer,coopInvite});`,g);
   return g;
 }
 module.exports={load,ELS,STORE,SESS};

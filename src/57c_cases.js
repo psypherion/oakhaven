@@ -49,15 +49,21 @@ function commitTheory(cid,oid){
   addNoteRaw('theory_'+cid,`Theory — ${c.title}`,(o.ok?c.theory.right:c.theory.wrong)||o.t);
   if(c.theory.fx) try{ c.theory.fx(o.ok); }catch(e){}
 }
-/* Sam sees patterns; Dean trusts his gut */
+/* Sam sees patterns; Dean trusts his gut (in co-op: the Observer and the Interrogator) */
+function canHunch(){ return isSam(); }
+function canGut(){ return isDean(); }
+function hunchLabel(){ return 'Sam’s hunch'; }
+function gutLabel(){ return 'Dean’s gut'; }
+const JR_BIND=[];
+function clueBadge(c,k){ return ''; }
 function samHunch(cid){
-  const c=CASES[cid]; if(!isSam()||S.inv.hint[cid]>=hunchMax(cid)) return null;
+  const c=CASES[cid]; if(!canHunch()||S.inv.hint[cid]>=hunchMax(cid)) return null;
   const L=c.links.find(l=>!haveLink(cid,l.id)&&clueHave(c,l.a)&&clueHave(c,l.b)); if(!L) return null;
   S.inv.hint[cid]=(S.inv.hint[cid]||0)+1; return L;
 }
 function hunchMax(cid){ return 1+Math.floor((S.inv.links[cid]||[]).length/2); }
 function deanGut(cid){
-  const c=CASES[cid]; if(!isDean()||S.inv.gut[cid]) return null;
+  const c=CASES[cid]; if(!canGut()||S.inv.gut[cid]) return null;
   const wrong=c.theory.opts.filter(o=>!o.ok); if(!wrong.length) return null;
   const w=wrong[0]; S.inv.gut[cid]=w.id; return w;
 }
@@ -107,7 +113,7 @@ function renderJournal(){
     const card=k=>{ const q=c.clues[k]; S.inv.seen[c.id+':'+k]=true;
       const img=q.img?q.img():null, used=c.links.some(l=>haveLink(c.id,l.id)&&(l.a===k||l.b===k)), sel=JR.sel.includes(k), hint=JR.flash&&(JR.flash.a===k||JR.flash.b===k);
       const ann=(S.inv.ann&&S.inv.ann[c.id+':'+k])||null, tr=q.k==='talk'&&q.trust?trustWord(q.trust):'';
-      return `<button class="jr-card k-${q.k}${sel?' sel':''}${used?' used':''}${hint?' hint':''}" data-clue="${k}">${img?`<img src="${img}" alt="">`:''}<i>${KIND_ICON[q.k]||'•'}</i><b>${esc_(q.t)}</b><span>${esc_(typeof q.x==='function'?q.x():q.x)}</span>${q.who?`<small>${esc_(q.who)}${tr?' · '+tr:''}</small>`:''}${ann?`<em class="ann">${esc_(ann)}</em>`:''}</button>`; };
+      return `<button class="jr-card k-${q.k}${sel?' sel':''}${used?' used':''}${hint?' hint':''}" data-clue="${k}">${img?`<img src="${img}" alt="">`:''}<i>${KIND_ICON[q.k]||'•'}</i><b>${esc_(q.t)}</b><span>${esc_(typeof q.x==='function'?q.x():q.x)}</span>${q.who?`<small>${esc_(q.who)}${tr?' · '+tr:''}</small>`:''}${ann?`<em class="ann">${esc_(ann)}</em>`:''}${clueBadge(c,k)}</button>`; };
     const facts=have.filter(k=>c.clues[k].k!=='talk'), claims=have.filter(k=>c.clues[k].k==='talk');
     const mf=ks.filter(k=>c.clues[k].k!=='talk').length-facts.length, mc=ks.filter(k=>c.clues[k].k==='talk').length-claims.length;
     h+=`<h3>Evidence <i>what you observed</i><span>${facts.length} found${mf?` · ${mf} not found`:''}</span></h3><div class="jr-cards">`;
@@ -119,7 +125,7 @@ function renderJournal(){
     if(!caseClosed(c.id)||c.links.some(l=>!haveLink(c.id,l.id))){
       h+=`<div class="jr-bar"><span>${JR.sel.length===2?'Connect these two?':JR.sel.length===1?'Pick a second piece of evidence.':'Pick two pieces of evidence to connect them.'}</span>`
         +(JR.sel.length===2?'<button data-link>Connect</button>':'')
-        +(isSam()&&(S.inv.hint[c.id]||0)<hunchMax(c.id)?'<button data-hunch title="Sam reads patterns">Sam’s hunch</button>':'')
+        +(canHunch()&&(S.inv.hint[c.id]||0)<hunchMax(c.id)?`<button data-hunch title="Reads patterns">${hunchLabel()}</button>`:'')
         +'</div>';
       if(JR.msg) h+=`<div class="jr-msg">${esc_(JR.msg)}</div>`;
     }
@@ -136,15 +142,7 @@ function renderJournal(){
     const Q=openQuestions(c);
     if(Q.length){ h+='<h3>Open questions</h3><ul class="jr-q">'+Q.map(q=>`<li>${esc_(q)}</li>`).join('')+'</ul>'; }
     /* theory */
-    const T=c.theory, t=theoryOf(c.id);
-    if(T){ h+=`<h3>Theory</h3><div class="jr-theory"><p class="q">${esc_(T.q)}</p>`;
-      if(t){ const o=T.opts.find(x=>x.id===t); h+=`<p class="pick ${o.ok?'right':'wrong'}">You said: ${esc_(o.t)}</p>`+(caseClosed(c.id)?`<p class="verdict">${esc_(o.ok?T.right:T.wrong)}</p>`:'<p class="verdict">Committed. You’ll find out if it holds.</p>'); }
-      else if(!D.length) h+='<p class="jr-empty">Connect some evidence first.</p>';
-      else { for(const o of T.opts){ const struck=S.inv.gut[c.id]===o.id;
-          h+=`<button class="jr-opt${struck?' struck':''}" data-theory="${o.id}"${struck?' disabled':''}>${esc_(o.t)}${struck?' <small>(Dean’s gut: no)</small>':''}</button>`; }
-        if(isDean()&&!S.inv.gut[c.id]) h+='<button class="jr-gut" data-gut>Dean’s gut</button>';
-        h+='<p class="jr-warn">You only get to commit once.</p>'; }
-      h+='</div>'; }
+    h+=theoryBlock(c,D);
     /* what happened afterwards */
     if(caseClosed(c.id)){ h+='<div class="jr-after"><button data-autopsy>Read the autopsy</button>'+(S.inv.news.some(n=>n.cid===c.id)?'<button data-paper>Read the Ledger</button>':'')+'</div>'; }
   }
@@ -183,8 +181,20 @@ function renderJournal(){
     closeJournal(); openMenu('Commit to this?',o.t+'\n\nYou can’t take it back.',[
       {text:'Yes. That’s what happened.',act:()=>{ commitTheory(JR.tab,id); openJournal(JR.tab); }},{text:'Not yet.',act:()=>openJournal(JR.tab)}]); });
   on('[data-autopsy]',()=>{ closeJournal(); showAutopsy(JR.tab,true); });
+  for(const f of JR_BIND) try{ f(on); }catch(e){ console.error(e); }
   on('[data-paper]',()=>{ const n=S.inv.news.find(x=>x.cid===JR.tab); closeJournal(); showPaper(n,true); });
 }
+function theoryBlock(c,D){ let h='';
+    const T=c.theory, t=theoryOf(c.id);
+    if(T){ h+=`<h3>Theory</h3><div class="jr-theory"><p class="q">${esc_(T.q)}</p>`;
+      if(t){ const o=T.opts.find(x=>x.id===t); h+=`<p class="pick ${o.ok?'right':'wrong'}">You said: ${esc_(o.t)}</p>`+(caseClosed(c.id)?`<p class="verdict">${esc_(o.ok?T.right:T.wrong)}</p>`:'<p class="verdict">Committed. You’ll find out if it holds.</p>'); }
+      else if(!D.length) h+='<p class="jr-empty">Connect some evidence first.</p>';
+      else { for(const o of T.opts){ const struck=S.inv.gut[c.id]===o.id;
+          h+=`<button class="jr-opt${struck?' struck':''}" data-theory="${o.id}"${struck?' disabled':''}>${esc_(o.t)}${struck?' <small>(${gutLabel()}: no)</small>':''}</button>`; }
+        if(canGut()&&!S.inv.gut[c.id]) h+=`<button class="jr-gut" data-gut>${gutLabel()}</button>`;
+        h+='<p class="jr-warn">You only get to commit once.</p>'; }
+      h+='</div>'; }
+  return h; }
 function personExtra(p){ const f=S.flags, x=[];
   if(p.flag==='met_nurse'&&f.halvorsen_trusted) x.push('Trusted you with the clinic records.');
   if(p.flag==='met_sarah'&&f.sarah_crew) x.push('Knows all six were line three.');
