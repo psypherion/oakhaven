@@ -34,7 +34,7 @@ section('the arsenal');
   K.giveGear('mantle'); K.S.hp=100; K.S.armor=0; K.hurtPlayer(20,null); ok(K.S.hp>=84,`mantle did not reduce damage (hp ${K.S.hp})`);
   K.giveGear('ashplate'); K.S.armor=0; K.S.time+=1; K.ks(120); ok(K.S.armor>0,'ash-plate never refilled');
   /* blades stay when you switch brothers */
-  K.enterSector('street',28,30,-Math.PI/2); clear(K); K.ks(2); K.switchHero(true); ok(K.S.owned.has('archangel')&&K.S.owned.has('ring'),'divine weapons lost on switching'); }
+  K.enterSector('street',28,30,-Math.PI/2); clear(K); K.ks(2); K.switchHero(true); ok(!K.S.owned.has('archangel'),'kits should be separate now'); K.switchHero(true); ok(K.S.owned.has('archangel')&&K.S.owned.has('ring'),'divine weapons lost after switching back'); }
 
 section('weapon style');
 { const K=game('sam'); ok(K.S.settings.vmStyle==='painted','default style is not painted');

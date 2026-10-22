@@ -128,11 +128,11 @@ section('store, trunk, wardrobe');
 G.S.hero='dean'; G.S.cfg=G.HEROES.dean; G.S.costume='leather'; G.S.cash=500;
 const sh=G.SHOP.find(i=>i.id==='shells'); const p1=G.shopPrice(sh); G.setCostume('fbi'); const p2=G.shopPrice(sh);
 ok(p2<p1,'suit discount not applied');
-const knifeIt=G.SHOP.find(i=>i.id==='knife'); G.S.owned.delete('knife'); ok(G.buy(knifeIt)&&G.S.owned.has('knife'),'could not buy knife');
+ok(!G.SHOP.find(i=>i.id==='knife'),'the demon knife is earned, not sold'); const boltIt=G.SHOP.find(i=>i.id==='bolts'); const bo0=G.S.ammo.bolts||0; ok(boltIt&&G.buy(boltIt)&&(G.S.ammo.bolts||0)+require('vm').runInContext('stash().ammo.bolts||0',G)>bo0,'could not buy bolts');
 const bl=G.SHOP.find(i=>i.id==='bless'); G.buy(bl); ok(G.S.enchant.blessed,'enchant not applied');
 G.S.cash=0; ok(!G.buy(sh),'bought with no money');
 const vm1=G.VM_().revolver.px; G.setCostume('coveralls'); ok(G.VM_().revolver.px.some((c,i)=>c!==vm1[i]),'viewmodel unchanged by costume');
-G.S.trunk=1; const r0=G.S.ammo.rounds; G.openTrunk(); ok(G.S.ammo.rounds>r0&&G.S.trunk===0,'trunk did not resupply');
+{ const E=x=>require('vm').runInContext(x,G); G.S.trunk=1; E('openArmoury(true)'); ok(/Hunter’s crate/.test(E('elTrunk.innerHTML')),'hunter crate not offered at the trunk'); E('closeArmoury()'); }
 
 section('scripted playthrough — every objective');
 const H=load(); let tt=0; const st=(n=1)=>{ for(let i=0;i<n;i++){ tt+=16; H.frame(tt); } };
@@ -347,7 +347,7 @@ section('saving and resuming');
   K.enterSector('library',8,9.6,-Math.PI/2); ks(2); delete STORE['oakhaven.save.auto']; K.S.lastAuto=-99; K.requestAutosave(); ks(30); ok(STORE['oakhaven.save.auto'],'no autosave');
   K.playCutscene('death'); ok(!K.canSave(),'saving allowed during a cutscene'); K.skipCutscene(); ks(4);
   /* the pause menu */
-  K.openPause(); ok(K.dlg.open&&K.dlg.avail.length===8&&K.dlg.avail.some(c=>/^Play as/.test(c.text))&&K.dlg.avail.some(c=>c.text==='Names')&&K.dlg.avail.some(c=>c.text==='Settings'),'pause menu'); K.closeDlg();
+  K.openPause(); ok(K.dlg.open&&K.dlg.avail.length===12&&K.dlg.avail.some(c=>c.text==='Chess')&&K.dlg.avail.some(c=>c.text==='Story tree')&&K.dlg.avail.some(c=>c.text==='Characters')&&K.dlg.avail.some(c=>c.text==='Plot')&&K.dlg.avail.some(c=>/^Play as/.test(c.text))&&K.dlg.avail.some(c=>c.text==='Names')&&K.dlg.avail.some(c=>c.text==='Settings'),'pause menu'); K.closeDlg();
   ok(K.latestSave(),'no latest save for Continue'); }
 
 { const K=load(); K.begin('sam'); K.S.act=3; K.S.flags.delia_killed=true; K.S.flags.kevin_used=true;

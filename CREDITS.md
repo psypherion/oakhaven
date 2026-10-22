@@ -22,7 +22,13 @@ The figure at the end of Oakhaven is adapted, with respect, from the Krishna of 
 
 ## Weapon art
 
-The painted first-person weapons (1.7) come from a reference sheet supplied by the project's author. They were cut out, cleaned and packed into the game's sprite sheet.
+The painted first-person weapons (1.7) come from a reference sheet supplied by the project's author. They were cut out, cleaned and packed into the game's sprite sheet. In 1.11 they were replaced by two newer sheets from the author: an item sheet and a three-pose (idle, attack, move) first-person sheet. These are cut by `tools/cut_weapons.py` into one WebP atlas.
+
+## Chess
+
+The chess pieces were drawn in SVG for this game. The rules engine and the fallback engine (`src/68a_chess_rules.js`) are original.
+
+The town's players use **Stockfish 10** (https://stockfishchess.org), © the Stockfish authors, through the stockfish.js 10.0.2 build by Nathan Rugg. It is **GPL-3.0**. Oakhaven doesn't include or redistribute it. The browser downloads it from cdn.jsdelivr.net the first time you play a character and runs it unchanged in a Web Worker. Online chess uses PeerJS (above).
 
 ## If any of this touches your life
 

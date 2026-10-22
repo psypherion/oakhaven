@@ -49,7 +49,7 @@ function writeSave(slot){
 /* Saves are versioned. Older versions are migrated forward; anything that
    can't be read is reported as damaged, never silently dropped, and is never
    overwritten by an autosave. */
-const BUILD='1.9.0';
+const BUILD='1.11.0';
 const MIGRATIONS={ /* v0 → v1: nothing needed, the shape is the same */ 0:d=>{ d.v=1; return d; } };
 const SAVE_ERR={};
 function validSave(d){ return d&&typeof d==='object'&&d.S&&d.sectors&&d.player&&HEROES[d.hero]&&SECTORS[d.player.sector]&&typeof d.S.flags==='object'; }

@@ -6,7 +6,7 @@ post-process. You get a drivable Impala, buildings you can walk into, a
 paper-doll cast, in-engine cutscenes, and a story that unfolds through
 conversations you overhear and conversations you choose.
 
-**Version 1.9.0.** This is a free, non-commercial fan work. See `CREDITS.md` for the licence and the *Supernatural* notice, `CHANGELOG.md` for what changed, and `KNOWN_ISSUES.md` for limitations.
+**Version 1.10.0.** This is a free, non-commercial fan work. See `CREDITS.md` for the licence and the *Supernatural* notice, `CHANGELOG.md` for what changed, and `KNOWN_ISSUES.md` for limitations.
 
 **Supported:** desktop Chrome, Edge, Firefox or Safari 17+, with keyboard and mouse or a standard gamepad; and phones and tablets in landscape, with touch controls (1.9). The game is one HTML file that runs offline, with no server needed. Two-player campaigns need a network connection; see *Two players* below.
 
@@ -21,6 +21,7 @@ conversations you overhear and conversations you choose.
 - `STORY.md` is the story bible. `RENDERING.md` covers how the renderer works.
 - `docs/AUDIT.md` is the release audit: defects found, severity and fixes. `docs/CASEMAP.md` is the case dependency map.
 - `tests/release.js` checks saves, settings, combat telegraphs, blocking and the investigation systems. `tests/cases.js` plays every case end to end.
+- `tools/cut_weapons.py` and `tools/embed_weapons.py` cut the painted weapon sheets into the WebP atlas the game embeds. `tests/chess.js` checks the chess rules against perft counts. `tests/chess_browser.js` plays chess in a real browser, against Stockfish and between two browsers.
 - `oakhaven_doom.html` and `oakhaven_prototype.html` are earlier builds, kept for reference.
 
 ## The story
@@ -81,6 +82,20 @@ Dean, Sam, Kevin, Crowley, the sheriff, Sarah Lindqvist, Dr. Halvorsen, Hank
 nightgown shows up on Main Street in Act II. Castiel and Chuck are drawn and
 ready for later acts. `node tests/castsheet.js out.png` renders the whole cast
 on one sheet.
+
+## Chess, and the armoury (1.11)
+
+- **Chess** (title screen → *Play*, the pause menu, or a board at the motel, the library or the Velvet Hour). Play twelve people from the story, driven by Stockfish 10 when you're online and by a built-in engine when you aren't. You can also play a friend on the same screen, or online with a five-letter room code.
+- **The armoury.** Six weapons and a limit of each ammunition on you, with everything else in the Impala's trunk. Hand ammunition and weapons to your brother. The special weapons are earned from the story (Crowley, Castiel, 2031, the Nave, the mill, Walter Pike, Earl or the sheriff, Amos Wren), not bought.
+
+## The story tree, and the one who comes next (1.10)
+
+- **Story tree** (title screen → *Read*, or the pause menu) maps every act, case, turning point, other place and ending, with the threads between them. Pick any point, choose a brother, and play from there in single-player.
+- **The one who comes next.** After any ending, the Formless One becomes an ordinary person who doesn't know what he is. Who he is depends on how you played: what you spared, how you investigated, whom you loved, how you fought, and how you ended it. Download him from his sheet to continue the story with him later.
+
+## Characters and Plot (1.9.1)
+
+On the title screen, the *Read* row has **Characters** (the cast, with portraits; anyone from an act you haven't reached is veiled until you tap them) and **Plot** (how the brothers came to Oakhaven, what the town was, and what people there say about it). Both are on the pause menu too.
 
 ## Phones, HD and Cinematic (1.9)
 

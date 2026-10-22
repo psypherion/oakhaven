@@ -31,3 +31,6 @@ To report a bug, open the pause menu and note the chapter shown there, the rende
   - **The campaign server** keeps campaigns in memory while they're in use, so run it as a single process.
 
 - **Cinematic and HD** cost roughly 3× and 2× what Crisp does per frame. Cinematic steps down to 960×402 by itself if the frame rate drops for more than four seconds; HD doesn't, so switch back with **R** if it stutters.
+- **Chess engine.** Stockfish is downloaded from cdn.jsdelivr.net (about 1 MB) the first time you play a character. If that's blocked, the built-in engine plays instead. It is weaker (roughly a strong club player at most), so Chuck and the Formless One are easier offline.
+- **Online chess** uses the public PeerJS signalling server unless a campaign server is set, like two-player campaigns. Strict corporate or school networks can block the peer-to-peer link. Each player's own browser keeps their clock.
+- **Weapon art.** The crossbow and rifle first-person frames are made from the item art, so no hands are shown holding them.

@@ -73,7 +73,7 @@ function cPath(p){ if(typeof p!=='string'||!p||p.length>200) return null; const 
 function cGet(o,a){ for(const k of a){ if(o==null||typeof o!=='object') return undefined; o=Object.prototype.hasOwnProperty.call(o,k)?o[k]:undefined; } return o; }
 function cSetIn(o,a,v){ for(let i=0;i<a.length-1;i++){ const k=a[i]; if(o[k]==null||typeof o[k]!=='object'||Array.isArray(o[k])) o[k]={}; o=o[k]; }
   if(v===null||v===undefined) delete o[a[a.length-1]]; else o[a[a.length-1]]=v; }
-const LIST_CAP={chron:3000,relLog:2000,'shared.ledger':400,'shared.notes':400};
+const LIST_CAP={chron:3000,relLog:2000,'shared.ledger':400,'shared.notes':400,'shared.gifts':400};
 
 /* ── the campaign ──────────────────────────────────────────────────────── */
 function coopFresh({title,name,hero,role,now,id,token}){

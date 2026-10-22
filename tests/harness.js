@@ -45,7 +45,7 @@ function load(o={}){
     openBoard,closeBoard,renderBoard,BOARD,elBoard_:()=>elBoard,elLobby_:()=>elLobby,elAut_:()=>elAut,openLobby,renderLobby,LOBBY,coopList,coopMeta,coopStoreMeta,coopForget,coopLoadAuth,
     relGet,relEvent,relHistory,relWords,partnerOnline,partnerHere,partnerJoined,coopRecoveryCode,coopImportCode,coopArchive,coopImportArchive,coopParseJoin,coopInviteLink,
     openCampaignPanel,renderPanel,coopWorld,cop,chron,clueLocal,feedPush,coopScan,coopReconnectNow,coopConnect,sendPing,isObserver,isInterrogator,coopHud,elFeed_:()=>elFeed,
-    sarahAsks,ROT_END,showRotEnding,theoryOf,tryLink,clueHave,haveLink,jointDef,openJournal,renderJournal,JR,elJournal_:()=>elJournal,coopPeerId,coopPeerOpts,coopDialWS,coopCreateServer,coopInvite});`,g);
+    sarahAsks,ROT_END,showRotEnding,TREE,TN,treeStart,openTree,renderTree,TV,heirMake,heirLoad,heirProfile,collect,openHeir,elTree_:()=>elTree,elHeir_:()=>elHeir,showEnding,openCodex,renderCodex,elCodex_:()=>elCodex,theoryOf,tryLink,clueHave,haveLink,jointDef,openJournal,renderJournal,JR,elJournal_:()=>elJournal,coopPeerId,coopPeerOpts,coopDialWS,coopCreateServer,coopInvite});`,g);
   return g;
 }
 module.exports={load,ELS,STORE,SESS};

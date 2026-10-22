@@ -1,5 +1,78 @@
 # Changelog
 
+## 1.11.0: the armoury, and a game of chess
+
+**Chess**
+- *Chess* is new on the title screen (the *Play* row), on the pause menu, and on three boards in town: the motel desk (Marla), the library (Sarah) and the Velvet Hour (Juno). Walk up to one and press use to sit down.
+- **Play the town.** Twelve opponents, from Marla (a beginner) to Chuck and the Formless One (Stockfish at full strength). Each has a strength, a style of play, and things to say when you take a piece, give check, offer a draw, or win. Characters from acts you haven't reached are locked. The Formless One appears after any ending.
+- **The engine.** The town's players are driven by Stockfish 10, downloaded the first time you play from jsDelivr into a background worker. It isn't built into the game file because Stockfish is GPL. With no connection, the game uses its own built-in engine (alpha-beta search with a capture search), and the room says which engine is playing.
+- **Two at one table.** Hot-seat play on one screen, with an optional clock (3+2 up to 30 minutes) and a board that turns to face whoever is moving.
+- **Across the wire.** One player opens a room and reads out a five-letter code; the other types it in. Moves go peer to peer over the same PeerJS connection as two-player campaigns. Includes a clock, draw offers, resignation, and rematches with colours swapped. Leaving ends the game.
+- **The board.** A new gothic set: carved bone with gilt bands against blackened iron with a crimson ember. It has click-to-move and drag, dots for legal moves, last-move and check highlights, a promotion picker (under-promotion included), captured pieces with the material count, the move list in standard notation, take-back, hint, flip (**F**), and *Copy PGN*.
+- **The rules** are complete: castling, en passant, promotion, check, checkmate, stalemate, the fifty-move rule, threefold repetition and insufficient material. Move generation is checked against published perft counts.
+- **Winnings.** During a run, your first win against each townsperson pays (Earl $25 up to Chuck $100). Games where you used a take-back or a hint don't pay. Results are kept per opponent, and an unfinished game against a character or at one table can be resumed.
+
+**The armoury**
+- **Carrying.** Each brother carries six weapons (the journal doesn't count) and a limit of each ammunition: 48 rounds, 32 shells, 8 flares, 6 holy water, 18 silver bolts, 20 rifle rounds. Anything over the limit that you buy goes into the Impala's trunk. Pickups over the limit stay on the ground.
+- **The trunk.** At the car, the trunk screen has three columns: *on you*, *the trunk*, and *your brother*. Stow and take weapons, top up ammunition, and open the hunter's crates you've earned (these now stock the trunk).
+- **Sharing.** Hand ammunition and weapons to your brother at the car, or from the quick wheel when he's beside you. His kit is real: he fires his own rounds, runs dry and tells you so. Each brother has his own kit when you switch. In two-player campaigns, items handed across arrive in your partner's trunk.
+- **Earned, not bought.** The special weapons come from the story, and Earl no longer sells the demon blade:
+  - Demon blade: Crowley's deal
+  - Angel blade: Castiel
+  - Archangel's blade: 2031
+  - Ring of Severance: the Inverted Nave
+  - **New:** pitch torch, from the mill's boiler room
+  - **New:** silvered crossbow, from Walter Pike's father, left in the trunk; its bolts pierce up to three
+  - **New:** scoped deer rifle, from Earl or Sheriff Ames
+  - **New:** Wren's lantern, from Amos Wren in 1951; its flash burns ghosts and its glow keeps them back
+- **Number keys hold two weapons each:** 1 crowbar/torch, 2 revolver/rifle, 3 shotgun/crossbow, 4 blades, 5 holy water/lantern. Press again to switch between them.
+- **New weapon art** from the painted sheets. Every weapon has idle, attack and move poses. The trunk shows the item art.
+
+## 1.10.0: the story tree, and the one who comes next
+
+**The story tree**
+- *Story tree* is new on the title screen's *Read* row and on the pause menu. It is the whole story as one branching map:
+  - the four acts
+  - the main and optional cases
+  - the turning points (Delia, Kevin, Crowley, Father Alistair, Shurley's)
+  - the three other places (1951, 2031, the Inverted Nave)
+  - the altar and all seven endings
+- Solid lines show the order things happen in. Dashed lines are the threads between stories. Hover over one to see it: Ray Hollis's daughter, the crossroads seal of 1951, the radio that calls before people die, and others.
+- Points you've reached are lit. Points from acts you haven't reached are veiled unless you tick *show everything*.
+- **Play from any point.** Pick a point, choose Dean or Sam, and press *Play from here*. It starts a new single-player run from that moment, fills in sensible defaults for everything before it, and puts you where that part of the story is. All 28 points are tested for both brothers.
+
+**The one who comes next**
+- Every ending now ends with the Formless One taking a form: a new person, with an ordinary life, who doesn't know what he is.
+- Who he becomes is decided by how you played the whole story. Nine leanings are scored:
+  - mercy
+  - force
+  - inquiry
+  - love
+  - loyalty
+  - wandering
+  - defiance
+  - faith
+  - restraint
+- The scores come from whom you spared and freed, how many of your theories held, what you did with Kevin and Delia, Lilith and the enchantresses, how often you and your brother agreed, which cases you chose to take, and which ending you chose.
+- **His sheet** gives:
+  - his name, age, work and city, and a portrait
+  - three traits, each with the choice that caused it
+  - a flaw, and echoes of your run
+  - three things he doesn't know about himself
+  - the first line of his story
+- The same run always makes the same person. A different run makes someone else.
+- He is kept in this browser, and appears on the end screen, in Characters and at the end of the story tree. *Download him* saves him as a file, to carry into the next part of the story.
+
+## 1.9.1: Characters and Plot
+
+- **Characters** is new on the title screen (row *Read*) and on the pause menu. It shows the whole cast with their portraits, who they are, what they believe and when you meet them.
+  - Anyone from an act you haven't reached yet is veiled. Tap a card to look anyway.
+  - Names follow the Names page.
+- **Plot** is also new, in the same places: the story before the game starts.
+  - How the brothers came to Oakhaven: a clipping under the wiper, a text at twenty to three, and a line in their father's journal.
+  - What the town was: the mill, Crossroads Holdings and the six deaths.
+  - Nine pieces of local folklore. It gives away nothing from an act you haven't played.
+
 ## 1.9.0: Cinematic, HD, and phones
 
 **Higher resolution**

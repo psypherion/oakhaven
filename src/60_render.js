@@ -407,7 +407,7 @@ function drawHUD(){
   if(S.torchOn||S.battery<100) txt(`TORCH ${Math.ceil(S.battery)}%${S.torchOn?' ON':''}`,rx+rw-6*v,ry+14*v,4.6*v,S.battery<22?'#e05a4a':'#d9a441','right');
   txt(`$${S.cash}`,rx+rw-6*v,ry+22*v,5.4*v,'#18c866','right');
   const sw_=(rw-10*v)/WEAPON_ORDER.length;
-  WEAPON_ORDER.forEach((wid,i)=>{ const blade=wid==='knife'&&typeof BLADES!=='undefined', own_=S.owned.has(wid)||(blade&&BLADES.some(b=>S.owned.has(b))), sel=wid===S.weapon||(blade&&BLADES.includes(S.weapon)), bx=rx+6*v+i*sw_, by=ry+33*v;
+  WEAPON_ORDER.forEach((wid,i)=>{ const si=typeof slotInfo==='function'?slotInfo(i):{own:S.owned.has(wid),sel:wid===S.weapon}, own_=si.own, sel=si.sel, bx=rx+6*v+i*sw_, by=ry+33*v;
     octx.fillStyle=sel?'#d9a441':own_?'rgba(200,200,190,.12)':'rgba(255,255,255,.03)'; octx.fillRect(bx,by,sw_-2.5*v,7*v);
     txt(String(i+1),bx+(sw_-2.5*v)/2,by+3.6*v,4.6*v,sel?'#0b0705':own_?'#cbbfae':'#3f4a50','center','middle'); });
 

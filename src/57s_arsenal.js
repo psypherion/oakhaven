@@ -229,7 +229,9 @@ function cHoly(sl,sk){ return art(120,90,A=>{ vmArm(A,6,100,34,74,15,10,sl,sk);
       return V; }
     Object.assign(V,{revolver:vmRevolver(sl,sk,e),shotgun:vmShotgun(sl,sk,e),flare:vmFlare(sl,sk),crowbar:vmCrowbar(sl,sk,e),holywater:vmHoly(sl,sk),knife:vmDemonBlade(sl,sk)});
     /* the painted sheet, when it has loaded, replaces the drawings; enchantments add their glow on top */
-    if(VM_IMG.ready) for(const [k,f] of Object.entries(VM_IMG.frames)){ if(f.muzzle) WEAPONS[k].muzzle=f.muzzle; const px=f.px.slice();
+    if(VM_IMG.ready) for(const [k,f] of Object.entries(VM_IMG.frames)){ if(!WEAPONS[k]) continue; WEAPONS[k].muzzle=f.muzzle; const px=f.px.slice();
+      const P=VM_IMG.poses&&VM_IMG.poses[k]; if(P){ V[k+'@attack']={w:P.attack.w,h:P.attack.h,px:P.attack.px,scale:P.attack.scale}; V[k+'@alt']={w:P.alt.w,h:P.alt.h,px:P.alt.px,scale:P.alt.scale}; }
+      if(k==='journal'&&P) V.journalLit=V['journal@attack'];
       const add=(col,n,seed)=>{ for(let i=0;i<n;i++){ const j=(Math.abs(Math.sin((i+1)*seed*12.9898)*43758.5453)*px.length)|0; if(px[j]&&(px[j]>>>24)===255&&hash(j%240,(j/240)|0)>.4) px[j]=col; } };
       if(k==='revolver'&&e.blessed) add(glow(255,226,150),220,1.3); if(k==='shotgun'&&e.iron) add(glow(190,210,230),220,2.1); if(k==='crowbar'&&e.etched) add(glow(200,130,255),180,3.7);
       V[k]={w:f.w,h:f.h,px,scale:f.scale}; }
@@ -286,7 +288,7 @@ function giveWeapon(id,why){ if(S.owned.has(id)) return; S.owned.add(id); sfx('p
     return was(a,src); }; }
 INV_UPDATES.push(dt=>{ if(gear().includes('ashplate')&&S.armor<50) S.armor=Math.min(50,S.armor+2*dt); });
 /* both brothers' kits: blades and the ring are shared */
-{ const was=switchHero; switchHero=function(force){ const keep=['angelblade','archangel','ring'].filter(w=>S.owned.has(w)); const r=was(force); if(r) for(const w of keep) S.owned.add(w); return r; }; }
+/* (1.11: kits are separate; hand weapons over at the car or from the quick wheel) */
 
 /* ── Castiel gives the angel blade when he first finds you ───────────── */
 { const n=DIALOGUE.castiel&&DIALOGUE.castiel.nodes; if(n) for(const k of Object.keys(n)) for(const c of n[k].choices||[]) if(c.fx&&c.fx.flag==='cas_met'){
